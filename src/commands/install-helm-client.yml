@@ -30,4 +30,3 @@ steps:
 
         echo "Helm client installed"
         ${ARCHITECTURE}/helm version
-
