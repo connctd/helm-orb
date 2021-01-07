@@ -1,0 +1,28 @@
+description: |
+  Installs the helm gcs plugin
+parameters:
+  gcs-plugin-version:
+    type: string
+    default: "v0.2.0"
+    description: Which gcs plugin version to use
+
+steps:
+  - run:
+      name: Install gcs plugin
+      command: |
+        echo "Checking if helm3 is installed"
+        if ! type helm &> /dev/null; then
+            echo "Helm not installed yet"
+            exit 1
+        fi
+
+        if helm plugin list | grep "gcs" > /dev/null; then
+            echo "Helm gcs plugin already installed"
+            exit 0
+        fi
+
+        VERSION="<< parameters.gcs-plugin-version >>"
+
+        echo "Installing gcs plugin"
+        # requires gcp cloud utils which should be part of image
+        helm plugin install https://github.com/viglesiasce/helm-gcs.git --version ${VERSION}

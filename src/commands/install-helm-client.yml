@@ -1,0 +1,32 @@
+description: |
+  Installs the helm client.
+parameters:
+  helm-version:
+    type: string
+    default: "v3.4.2"
+    description: Which helm client version to use
+  helm-architecture:
+    type: string
+    default: "linux-amd64"
+    description: Underlying architecture
+
+steps:
+  - run:
+      name: Install helm client
+      command: |
+        echo "Checking if helm3 is already installed"
+        if type helm &> /dev/null; then
+          echo "Helm is already installed"
+          exit 0
+        fi
+
+        VERSION="<< parameters.helm-version >>"
+        ARCHITECTURE="<< parameters.helm-architecture >>"
+
+        echo "Downloading helm 3 client"
+        curl https://get.helm.sh/helm-${VERSION}-${ARCHITECTURE}.tar.gz > helm.tar.gz
+        tar -xzf helm.tar.gz
+        echo "export PATH=$(pwd)/${ARCHITECTURE}:$PATH" >> $BASH_ENV
+
+        echo "Helm client installed"
+        ${ARCHITECTURE}/helm version

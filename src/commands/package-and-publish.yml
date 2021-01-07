@@ -1,0 +1,36 @@
+description: |
+  Packages helm chart with given chart version and pushes it to chart repo
+parameters:
+  bucket:
+    type: string
+    default: ""
+    description: Name of bucket which is used to compose the bucket url gs://-bucket-
+  chart-version:
+    type: string
+    default: ""
+    description: Version of chart
+  chart-directory:
+    type: string
+    default: "deployment/*/"
+    description: Directory where the Chart.yaml is placed
+
+steps:
+  - run:
+      name: Package and push chart
+      command: |
+        echo "Checking if helm3 is installed"
+        if ! type helm &> /dev/null; then
+            echo "Helm not installed yet"
+            exit 1
+        fi
+
+        if ! helm plugin list | grep "gcs" > /dev/null; then
+            echo "Helm gcs plugin not installed yet"
+            exit 1
+        fi
+
+        echo "Packaging and publishing chart"
+        helm repo add << parameters.bucket >> gs://<< parameters.bucket >>
+        helm dep up << parameters.chart-directory >>
+        helm package << parameters.chart-directory >> --version << parameters.chart-version >> -d << parameters.chart-directory >>
+        helm gcs push << parameters.chart-directory >>/*.tgz gs://<< parameters.bucket >>

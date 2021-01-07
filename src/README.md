@@ -1,26 +1,28 @@
-# Orb Source
+# Helm Orb
 
-Orbs are shipped as individual `orb.yml` files, however, to make development easier, it is possible to author an orb in _unpacked_ form, which can be _packed_ with the CircleCI CLI and published.
+Simple orb that lets you package helm3 charts and publish them on gcs.
 
-The default `.circleci/config.yml` file contains the configuration code needed to automatically pack, test, and deploy and changes made to the contents of the orb source in this directory.
+## Example
 
-## @orb.yml
+This example uses the combined command helm/init-package-and-publish which installs helm and gcs plugin and also does the package and publish part. There are more atomic commands inside src/commands.
 
-This is the entry point for our orb "tree", which becomes our `orb.yml` file later.
+```
+orbs:
+  helm: connctd/helm@dev:e3cf760
+[...]
 
-Within the `@orb.yml` we generally specify 4 configuration keys
-
-**Keys**
-
-1. **version**
-    Specify version 2.1 for orb-compatible configuration `version: 2.1`
-2. **description**
-    Give your orb a description. Shown within the CLI and orb registry
-3. **display**
-    Specify the `home_url` referencing documentation or product URL, and `source_url` linking to the orb's source repository.
-4. **orbs**
-    (optional) Some orbs may depend on other orbs. Import them here.
-
-## See:
- - [Orb Author Intro](https://circleci.com/docs/2.0/orb-author-intro/#section=configuration)
- - [Reusable Configuration](https://circleci.com/docs/2.0/reusing-config)
+jobs:
+  publish-chart:
+    docker:
+      - image: google/cloud-sdk
+    steps:
+      - checkout
+      - run:
+          name: Define chart version based on git tag
+          command: |
+            echo "export CHART_VERSION=$(git describe --tags --always --dirty)" >> $BASH_ENV
+      - helm/init-package-and-publish:
+          service-account-credentials: $GCLOUD_SERVICE_ACCOUNT
+          bucket: $HELM_BUCKET_NAME
+          chart-version: $CHART_VERSION
+```
