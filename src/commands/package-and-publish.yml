@@ -9,6 +9,10 @@ parameters:
     type: string
     default: ""
     description: Version of chart
+  chart-directory:
+    type: string
+    default: "deployment/*/"
+    description: Directory where the Chart.yaml is placed
 
 steps:
   - run:
@@ -27,6 +31,6 @@ steps:
 
         echo "Packaging and publishing chart"
         helm repo add << parameters.bucket >> gs://<< parameters.bucket >>
-        helm dep up $(ls -d */)
-        helm package $(ls -d */) --version << parameters.chart-version >>
+        helm dep up << parameters.chart-directory >>
+        helm package < parameters.chart-directory >> --version << parameters.chart-version >>
         helm gcs push $(basename ./*.tgz) << parameters.bucket >>

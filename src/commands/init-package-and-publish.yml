@@ -25,6 +25,10 @@ parameters:
     type: string
     default: ""
     description: Base64 encoded service credentials
+  chart-directory:
+    type: string
+    default: "deployment/*/"
+    description: Directory where the Chart.yaml is placed
 
 steps:
   - install-helm-client:
@@ -37,3 +41,4 @@ steps:
   - package-and-publish:
       bucket: << parameters.bucket >>
       chart-version: << parameters.chart-version >>
+      chart-directory: << parameters.chart-directory >>
