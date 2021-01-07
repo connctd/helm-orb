@@ -1,13 +1,33 @@
 description: >
   Sample example description.
-# Provide a use-case based example for using this orb.
-# Everything in the `usage` section will be displayed in the orb registry.
-# Comments are not retained.
+
 usage:
   version: 2.1
+
   orbs:
-    <orb-name>: <namespace>/<orb-name>@1.2.3
+    helm: connctd/helm@0.0.1
+
+jobs:
+  publish-prod-chart:
+    working_directory: ~/tmp
+    docker:
+      - image: google/cloud-sdk:254.0.0-alpine
+    steps:
+      - helm/install-helm-client
+      - helm/install-helm-gcs-plugin
+      - helm/gcp-authorize:
+          service-account-credentials: $GCLOUD_SERVICE_ACCOUNT
+      - helm/package-and-publish:
+          bucket: $HELM_BUCKET_NAME
+          chart-version: v0.1.0
+  
   workflows:
     use-my-orb:
       jobs:
-        - <orb-name>/<job-name>
+        - publish-prod-chart:
+            context: helm
+            filters:
+              branches:
+                only: master
+              tags:
+                only: /^v[0-9]{1,}\.[0-9]{1,}\.[0-9]{1,}$/

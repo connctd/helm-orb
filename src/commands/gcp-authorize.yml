@@ -1,0 +1,16 @@
+description: |
+  Configures gcloud tools with appropriate service credetials
+parameters:
+  service-account-credentials:
+    type: string
+    default: ""
+    description: Base64 encoded service credentials
+
+steps:
+  - run:
+      name: Setup gcloud tools
+      command: |
+        SERVICE_ACCOUNT_CREDENTIALS="<< parameters.service-account-credentials >>"
+
+        echo -n ${SERVICE_ACCOUNT_CREDENTIALS} | base64 -d > creds.json
+        gcloud auth activate-service-account --key-file creds.json
