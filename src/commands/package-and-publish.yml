@@ -33,4 +33,4 @@ steps:
         helm repo add << parameters.bucket >> gs://<< parameters.bucket >>
         helm dep up << parameters.chart-directory >>
         helm package << parameters.chart-directory >> --version << parameters.chart-version >> -d << parameters.chart-directory >>
-        helm gcs push << parameters.chart-directory >>/*.tgz << parameters.bucket >>
+        helm gcs push << parameters.chart-directory >>/*.tgz gs://<< parameters.bucket >>
