@@ -14,3 +14,5 @@ steps:
 
         echo -n ${SERVICE_ACCOUNT_CREDENTIALS} | base64 -d > creds.json
         gcloud auth activate-service-account --key-file creds.json
+
+        echo "export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/creds.json" >> $BASH_ENV
