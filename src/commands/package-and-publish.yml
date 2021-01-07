@@ -32,5 +32,5 @@ steps:
         echo "Packaging and publishing chart"
         helm repo add << parameters.bucket >> gs://<< parameters.bucket >>
         helm dep up << parameters.chart-directory >>
-        helm package << parameters.chart-directory >> --version << parameters.chart-version >>
-        helm gcs push $(basename ./*.tgz) << parameters.bucket >>
+        helm package << parameters.chart-directory >> --version << parameters.chart-version >> -d << parameters.chart-directory >>
+        helm gcs push << parameters.chart-directory >>/*.tgz << parameters.bucket >>
