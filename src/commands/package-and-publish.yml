@@ -25,11 +25,6 @@ steps:
             exit 1
         fi
 
-        if [ -z "$GOOGLE_APPLICATION_CREDENTIALS" ]; then
-            echo "Google application credentials not set. Unauthorized."
-            exit 1
-        fi
-
         echo "Packaging and publishing chart"
         helm repo add << parameters.bucket >> gs://<< parameters.bucket >>
         helm dep up $(ls -d */)
