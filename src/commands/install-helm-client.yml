@@ -21,10 +21,13 @@ steps:
         fi
 
         VERSION="<< parameters.version >>"
-
         ARCHITECTURE="<< parameters.architecture >>"
 
         echo "Downloading helm 3 client"
         curl https://get.helm.sh/helm-${VERSION}-${ARCHITECTURE}.tar.gz > helm.tar.gz
         tar -xzf helm.tar.gz
-        export PATH=$PATH:$(pwd)/${ARCHITECTURE}/
+        echo "export PATH=$(pwd)/${ARCHITECTURE}:$PATH" >> $BASH_ENV
+
+        echo "Helm client installed"
+        ${ARCHITECTURE}/helm version
+
