@@ -34,6 +34,6 @@ steps:
       gcs-plugin-version: << parameters.gcs-plugin-version >>
   - gcp-authorize:
       service-account-credentials: << parameters.service-account-credentials >>
-  - helm/package-and-publish:
+  - package-and-publish:
       bucket: << parameters.bucket >>
       chart-version: << parameters.chart-version >>
