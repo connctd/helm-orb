@@ -1,7 +1,7 @@
 description: |
   Installs the helm gcs plugin
 parameters:
-  version:
+  gcs-plugin-version:
     type: string
     default: "v0.2.0"
     description: Which gcs plugin version to use
@@ -21,7 +21,7 @@ steps:
             exit 0
         fi
 
-        VERSION="<< parameters.version >>"
+        VERSION="<< parameters.gcs-plugin-version >>"
 
         echo "Installing gcs plugin"
         # requires gcp cloud utils which should be part of image

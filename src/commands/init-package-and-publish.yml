@@ -1,0 +1,39 @@
+description: |
+  Compound command. Installs helm and gcs plugin. Sets gcloud credentials based on passed service-account-credentials and package and publishes chart.
+parameters:
+  helm-version:
+    type: string
+    default: "v3.4.2"
+    description: Which helm client version to use
+  helm-architecture:
+    type: string
+    default: "linux-amd64"
+    description: Underlying architecture
+  gcs-plugin-version:
+    type: string
+    default: "v0.2.0"
+    description: Which gcs plugin version to use
+  bucket:
+    type: string
+    default: ""
+    description: Name of bucket which is used to compose the bucket url gs://-bucket-
+  chart-version:
+    type: string
+    default: ""
+    description: Version of chart
+  service-account-credentials:
+    type: string
+    default: ""
+    description: Base64 encoded service credentials
+
+steps:
+  - install-helm-client:
+      helm-version: << parameters.helm-version >>
+      helm-architecture: << parameters.helm-architecture >>
+  - install-helm-gcs-plugin:
+      gcs-plugin-version: << parameters.gcs-plugin-version >>
+  - gcp-authorize:
+      service-account-credentials: << parameters.service-account-credentials >>
+  - helm/package-and-publish:
+      bucket: << parameters.bucket >>
+      chart-version: << parameters.chart-version >>
