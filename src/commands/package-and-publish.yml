@@ -20,7 +20,7 @@ steps:
             exit 1
         fi
 
-        if helm plugin list | grep "gcs" > /dev/null; then
+        if ! helm plugin list | grep "gcs" > /dev/null; then
             echo "Helm gcs plugin not installed yet"
             exit 1
         fi
