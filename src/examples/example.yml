@@ -20,14 +20,14 @@ jobs:
       - helm/package-and-publish:
           bucket: $HELM_BUCKET_NAME
           chart-version: v0.1.0
-  
-  workflows:
-    use-my-orb:
-      jobs:
-        - publish-prod-chart:
-            context: helm
-            filters:
-              branches:
-                only: master
-              tags:
-                only: /^v[0-9]{1,}\.[0-9]{1,}\.[0-9]{1,}$/
+
+workflows:
+  use-my-orb:
+    jobs:
+      - publish-prod-chart:
+          context: helm
+          filters:
+            branches:
+              only: master
+            tags:
+              only: /^v[0-9]{1,}\.[0-9]{1,}\.[0-9]{1,}$/
