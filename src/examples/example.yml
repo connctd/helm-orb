@@ -8,7 +8,7 @@ usage:
     helm: connctd/helm@0.0.1
 
 jobs:
-  publish-prod-chart:
+  publish-chart:
     working_directory: ~/tmp
     docker:
       - image: google/cloud-sdk:254.0.0-alpine
@@ -24,7 +24,7 @@ jobs:
 workflows:
   use-my-orb:
     jobs:
-      - publish-prod-chart:
+      - publish-chart:
           context: helm
           filters:
             branches:
