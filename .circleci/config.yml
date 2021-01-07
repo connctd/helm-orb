@@ -63,6 +63,6 @@ workflows:
           publish-version-tag: false
           filters:
             branches:
-              only: 
+              only:
                 - master
                 - main
