@@ -8,7 +8,7 @@ This example uses the combined command helm/init-package-and-publish which insta
 
 ```
 orbs:
-  helm: connctd/helm@dev:e3cf760
+  helm: connctd/helm@1.1
 [...]
 
 jobs:
@@ -20,9 +20,9 @@ jobs:
       - run:
           name: Define chart version based on git tag
           command: |
-            echo "export CHART_VERSION=$(git describe --tags --always --dirty)" >> $BASH_ENV
+            echo "export APP_VERSION=$(git describe --tags --always --dirty)" >> $BASH_ENV
       - helm/init-package-and-publish:
           service-account-credentials: $GCLOUD_SERVICE_ACCOUNT
           bucket: $HELM_BUCKET_NAME
-          chart-version: $CHART_VERSION
+          app-version: $APP_VERSION
 ```

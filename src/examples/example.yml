@@ -19,7 +19,8 @@ jobs:
           service-account-credentials: $GCLOUD_SERVICE_ACCOUNT
       - helm/package-and-publish:
           bucket: $HELM_BUCKET_NAME
-          chart-version: v0.1.0
+          chart-version: 1.0.0
+          app-version: v2.1.0
 
 workflows:
   use-my-orb:

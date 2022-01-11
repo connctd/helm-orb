@@ -7,12 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
  - Current development changes [ to be moved to release ]
 
-## [0.0.1] - YYYY-MM-DD
+## [1.0] - 2021-01-07
 ### Added
- - Initial Release
-### Changed
- - Initial Release
-### Removed
- - Initial Release
+ - Basic functionality
 
-[0.0.1]: GITHUB TAG URL
+## [1.1] - 2022-01-11
+### Added
+ - App version can now be passed
