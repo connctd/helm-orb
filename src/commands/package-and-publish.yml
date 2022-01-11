@@ -7,7 +7,7 @@ parameters:
     description: Name of bucket which is used to compose the bucket url gs://-bucket-
   chart-version:
     type: string
-    default: ""
+    default: "\"\""
     description: Version of chart
   app-version:
     type: string
