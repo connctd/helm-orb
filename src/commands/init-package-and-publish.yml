@@ -23,7 +23,7 @@ parameters:
     description: Version of chart
   app-version:
     type: string
-    default: ""
+    default: "\"\""
     description: Application version
   service-account-credentials:
     type: string

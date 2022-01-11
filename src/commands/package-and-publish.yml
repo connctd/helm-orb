@@ -11,7 +11,7 @@ parameters:
     description: Version of chart
   app-version:
     type: string
-    default: ""
+    default: "\"\""
     description: Application version
   chart-directory:
     type: string
